@@ -1,0 +1,57 @@
+const express=require("express");
+const bodyParser=require("body-parser");
+const request= require("request");
+const https= require("https");
+
+const app=express();
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.static("public"));
+
+app.get("/", function(req,res) {
+res.sendFile(__dirname+"/signup.html");
+});
+app.post("/", function(req,res) {
+    const firstName=req.body.fName;
+    const email=req.body.email;
+    const password=req.body.password;
+
+    var data = {
+        members:[
+            {
+                email_address:email,
+                status:"subscribed",
+                merge_fields: {
+                    FNAME : firstName
+                }
+            }
+        ]
+    };
+    const jsonData= JSON.stringify(data);
+const url="https://us14.api.mailchimp.com/3.0/lists/fbaa253575";
+
+const options ={
+    method:"POST",
+    auth:"abdul1:c51a6fe6d3b0058f940ca4419a64473d-us14"
+}
+ const request= https.request(url,options,function(response) {
+  response.on("data" , function(data)  {
+console.log(JSON.parse(data));
+  })
+  })
+  request.write(jsonData);
+  request.end();
+
+   
+});
+
+
+
+
+app.listen(3000, function() {
+    console.log("Server is up and running on port 3000");
+});
+
+
+
+// c51a6fe6d3b0058f940ca4419a64473d-us14
+// fbaa253575
