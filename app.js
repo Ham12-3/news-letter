@@ -42,12 +42,12 @@ const options ={
     else {
         res.sendFile(__dirname+"/failure.html");
     }
-  response.on("data" , function(data)  {
-console.log(JSON.parse(data));
-  })
-  })
-  request.write(jsonData);
-  request.end();
+     response.on("data" , function(data)  {
+     console.log(JSON.parse(data));
+     })
+     })
+     request.write(jsonData);
+     request.end();
 
    
 });
