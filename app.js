@@ -34,6 +34,14 @@ const options ={
     auth:"abdul1:c51a6fe6d3b0058f940ca4419a64473d-us14"
 }
  const request= https.request(url,options,function(response) {
+
+    
+    if(response.statusCode==200) {
+        res.sendFile(__dirname+"/success.html");
+    }
+    else {
+        res.sendFile(__dirname+"/failure.html");
+    }
   response.on("data" , function(data)  {
 console.log(JSON.parse(data));
   })
@@ -43,6 +51,9 @@ console.log(JSON.parse(data));
 
    
 });
+app.post("/failure", function(req,res) {
+    res.redirect("/");
+})
 
 
 
